@@ -16,21 +16,24 @@ public class clientUDP {
             byte[] buffer = message.getBytes();
 
             if (message.equals("SHUTDOWN")) {
+                // Cas de commande d'extinction
                 open = false;
-            } else {
 
-                InetAddress adresse = InetAddress.getByName("localhost");
-                DatagramPacket packet = new DatagramPacket(buffer, buffer.length, adresse, 12345);
-                socket.send(packet);
+            }
+        
+            // Autres cas
+            InetAddress adresse = InetAddress.getByName("localhost");
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, adresse, 12345);
+            socket.send(packet);
 
-                // Réception de la réponse
-                byte[] bufferReponse = new byte[1024];
-                DatagramPacket reponsePacket = new DatagramPacket(bufferReponse, bufferReponse.length);
-                socket.receive(reponsePacket);
+            // Réception de la réponse
+            byte[] bufferReponse = new byte[1024];
+            DatagramPacket reponsePacket = new DatagramPacket(bufferReponse, bufferReponse.length);
+            socket.receive(reponsePacket);
 
-                String reponse = new String(reponsePacket.getData(), 0, reponsePacket.getLength());
-                System.out.println("Réponse du serveur: " + reponse);
-                }
+            String reponse = new String(reponsePacket.getData(), 0, reponsePacket.getLength(), "UTF-8");
+            System.out.println("Réponse du serveur: " + reponse);
+            
         socket.close();
         }
     }
